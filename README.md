@@ -12,8 +12,8 @@ Deploying DJango project on AWS serverless architecture.
 > ~/.aws/credentials
 
     [default]
-    aws_access_key_id = AKIAWT2SRQ4MSRHUKJ5D
-    aws_secret_access_key = 7DjKAsFkwYBgDsOokMbR7NLQJKgmTjR0bS3DDAhV 
+    aws_access_key_id = "your aws_iam_access_key"
+    aws_secret_access_key = "your aws_iam_user_secret_key" 
        
 ## Step 2.
 - [ ] Create VIRTUAL ENV
@@ -110,8 +110,8 @@ Make sure to change
 	
 	AWS_STORAGE_BUCKET_NAME = "mysite-django"
     AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-    AWS_ACCESS_KEY_ID = "AKIA423VS5AOADDEXYEX"
-    AWS_SECRET_ACCESS_KEY = "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"
+    AWS_ACCESS_KEY_ID = "iam_user_access_key"
+    AWS_SECRET_ACCESS_KEY = "iam_user_secret_key"
     AWS_S3_FILE_OVERWRITE = False
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',
@@ -195,11 +195,11 @@ Add following lines of code in `settings.py`.
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'sejamDB', # dbname
-            'USER': 'sejamDB', # master username
-            'PASSWORD': '2kqm9MQD', # master password
+            'NAME': 'mysitedb', # dbname
+            'USER': 'mysiteadmin', # master username
+            'PASSWORD': 'password', # master password
             'PORT': '3306',
-            'HOST': 'sejamdb.cluster-cmrgi4dsutgn.us-east-1.rds.amazonaws.com', # Endpoint
+            'HOST': 'mysitedb.cluster-cmrgi4dsutgn.us-east-1.rds.amazonaws.com', # Endpoint
         }
     }
 
@@ -217,7 +217,7 @@ Add following lines of code in `settings.py`.
 
 Add following code in `create_db.py`.
 
-	# sejam/management/commands/create_db.py
+	# mysite/management/commands/create_db.py
     import sys
     import logging
     import MySQLdb
@@ -225,10 +225,10 @@ Add following code in `create_db.py`.
     from django.core.management.base import BaseCommand, CommandError
     from django.conf import settings
     
-    rds_host = 'sejamdb.cluster-cmrgi4dsutgn.us-east-1.rds.amazonaws.com'
-    db_name = 'sejamDB'
-    user_name = 'sejamDB'
-    password = '2kqm9MQD'
+    rds_host = 'mysitedb.cluster-cmrgi4dsutgn.us-east-1.rds.amazonaws.com'
+    db_name = 'mysitedb'
+    user_name = 'mysiteadmin'
+    password = 'password'
     port = 3306
     
     logger = logging.getLogger()
@@ -245,9 +245,9 @@ Add following code in `create_db.py`.
                                      password=password, db="mysql", connect_timeout=5)
                 c = db.cursor()
                 print("connected to db server")
-                c.execute("""CREATE DATABASE sejamDB;""")
+                c.execute("""CREATE DATABASE mysitedb;""")
                 c.execute(
-                    """GRANT ALL PRIVILEGES ON db_name.* TO 'sejam_admin' IDENTIFIED BY 'sejamadmin';""")
+                    """GRANT ALL PRIVILEGES ON db_name.* TO 'mysite_admin' IDENTIFIED BY 'mysiteadmin';""")
                 c.close()
                 print("closed db connection")
             except:
