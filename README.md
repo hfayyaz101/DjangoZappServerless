@@ -279,3 +279,6 @@ Run migrations.
 
     $ zappa manage dev migrate
 
+Create Super User
+    
+    $ zappa invoke --raw dev "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@admin.com', 'admin')"
