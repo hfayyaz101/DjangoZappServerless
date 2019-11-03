@@ -151,7 +151,7 @@ Once done update, AWS.
 
 > **NOTE:**
 > Setting Up Routing to allow file upload on AWS
-> - Go to VPS service and create endpoint.
+> - Go to VPC service and create endpoint.
 > - Make sure to link with existing subnets.
 
 .
