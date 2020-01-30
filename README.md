@@ -256,6 +256,7 @@ Add following code in `create_db.py`.
                 sys.exit()
 
 > Make sure to change according to your requirement.
+> Change CREATE DATABASE "mysitedb" => database name
 
 Once done update code on AWS.
 
